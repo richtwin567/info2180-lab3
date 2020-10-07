@@ -70,6 +70,7 @@ function makeMove(square, position) {
 	} else {
 		placeX(square, position);
 	}
+	declareWinner(checkWinner());
 	turn.next();
 }
 
@@ -92,4 +93,52 @@ function calcArrPos(boardPosition) {
 	}
 
 	return { row: r, col: c };
+}
+
+function checkWinner() {
+	//check if any rows in the tracker have a winning combination first
+	for (var row of tracker) {
+		if (row[0] == row[1] && row[0] == row[2]) {
+			if (row[0] != null) {
+				return row[0];
+			}
+		}
+	}
+
+	//check the colums next
+	for (var col = 0; col < 3; col++) {
+		//check if the column has a winning combination
+		if (
+			tracker[0][col] == tracker[1][col] &&
+			tracker[0][col] == tracker[2][col]
+		) {
+			if (tracker[0][col] != null) {
+				return tracker[0][col];
+			}
+		}
+	}
+
+	//check the diagonals for winning combinations
+
+	if (tracker[0][0] == tracker[2][2] && tracker[0][0] == tracker[1][1]) {
+		if (tracker[0][0] != null) {
+			return tracker[0][0];
+		}
+	}
+
+	if (tracker[0][2] == tracker[1][1] && tracker[2][0] == tracker[0][2]) {
+		if (tracker[0][2] != null) {
+			return tracker[0][2];
+		}
+	}
+}
+
+function declareWinner(winner) {
+	if (winner != null) {
+		document.getElementById("status").innerHTML =
+			"Congratulations! " + winner + " is the Winner!";
+		document.getElementById("status").className = "you-won";
+		return true;
+	}
+	return false;
 }
