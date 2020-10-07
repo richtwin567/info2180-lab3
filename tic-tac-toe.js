@@ -48,6 +48,8 @@ window.addEventListener("DOMContentLoaded", () => {
 			makeMove(s.toElement, s.toElement.id)
 		);
 	}
+	var btn = document.getElementsByClassName("btn");
+	btn[0].addEventListener("click", newGame);
 });
 
 function placeX(square, position) {
@@ -70,8 +72,11 @@ function makeMove(square, position) {
 	} else {
 		placeX(square, position);
 	}
-	declareWinner(checkWinner());
-	turn.next();
+	if (declareWinner(checkWinner())) {
+		turn.reset();
+	} else {
+		turn.next();
+	}
 }
 
 function calcArrPos(boardPosition) {
@@ -141,4 +146,22 @@ function declareWinner(winner) {
 		return true;
 	}
 	return false;
+}
+
+function newGame() {
+	var board = document.getElementById("board");
+	for (var i = 0; i < board.children.length; i++) {
+		board.children[i].className = "square";
+		board.children[i].innerHTML = "";
+	}
+
+	document.getElementById("status").innerHTML =
+		"Move your mouse over a square and click to play an X or an O.";
+	document.getElementById("status").className = "";
+
+	tracker = [
+		[null, null, null],
+		[null, null, null],
+		[null, null, null],
+	];
 }
