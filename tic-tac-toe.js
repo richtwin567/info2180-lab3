@@ -67,16 +67,22 @@ function placeO(square, position) {
 }
 
 function makeMove(square, position) {
-	if (turn.isO()) {
-		placeO(square, position);
-	} else {
-		placeX(square, position);
+	if (isEmpty(square)) {
+		if (turn.isO()) {
+			placeO(square, position);
+		} else {
+			placeX(square, position);
+		}
+		if (declareWinner(checkWinner())) {
+			turn.reset();
+		} else {
+			turn.next();
+		}
 	}
-	if (declareWinner(checkWinner())) {
-		turn.reset();
-	} else {
-		turn.next();
-	}
+}
+
+function isEmpty(square) {
+	return square.innerHTML == "";
 }
 
 function calcArrPos(boardPosition) {
