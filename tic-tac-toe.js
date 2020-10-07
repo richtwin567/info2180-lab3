@@ -34,6 +34,16 @@ window.addEventListener("DOMContentLoaded", () => {
 		board.children[i].className += "square";
 		board.children[i].id += i + 1;
 
+		board.children[i].addEventListener("mouseover", (s) => {
+			s.toElement.className += " hover";
+		});
+		board.children[i].addEventListener("mouseout", (s) => {
+			s.fromElement.className = s.fromElement.className.replace(
+				" hover",
+				" "
+			);
+		});
+
 		board.children[i].addEventListener("click", (s) =>
 			makeMove(s.toElement, s.toElement.id)
 		);
